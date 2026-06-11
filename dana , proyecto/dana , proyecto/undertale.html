@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Determinación - RPG Retro Inspirado en Undertale</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root{
+    --bg:#000;
+    --fg:#fff;
+    --yellow:#ffff00;
+    --red:#ff2b2b;
+    --cyan:#00ffff;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:black;
+    color:white;
+    font-family:'Press Start 2P', monospace;
+    overflow-x:hidden;
+}
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:
+    repeating-linear-gradient(
+        transparent 0px,
+        rgba(255,255,255,.03) 1px,
+        transparent 2px
+    );
+}
+
+header{
+    text-align:center;
+    padding:40px 20px;
+}
+
+h1{
+    font-size:clamp(2rem,6vw,4rem);
+    text-shadow:0 0 10px white;
+    margin-bottom:20px;
+}
+
+.subtitle{
+    color:#aaa;
+    font-size:.8rem;
+}
+
+.heart-title{
+    color:var(--red);
+    font-size:2rem;
+    animation:pulse 1s infinite;
+    margin:20px 0;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    padding:20px;
+}
+
+button{
+    font-family:inherit;
+    background:black;
+    color:white;
+    border:3px solid white;
+    padding:12px 18px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    color:var(--yellow);
+    border-color:var(--yellow);
+}
+
+.section{
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+.box{
+    border:4px solid white;
+    padding:20px;
+    margin:20px 0;
+}
+
+h2{
+    margin-bottom:20px;
+    color:var(--yellow);
+}
+
+p{
+    line-height:1.8;
+    font-size:.75rem;
+}
+
+ul{
+    padding-left:20px;
+}
+
+li{
+    margin:12px 0;
+    font-size:.75rem;
+}
+
+.dialog-box{
+    max-width:900px;
+    margin:auto;
+    border:4px solid white;
+    padding:20px;
+    min-height:120px;
+}
+
+.dialog-text{
+    line-height:1.8;
+    font-size:.8rem;
+}
+
+.battle-ui{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:15px;
+    margin-top:40px;
+}
+
+.arena{
+    width:500px;
+    max-width:90vw;
+    height:250px;
+    border:4px solid white;
+    position:relative;
+    overflow:hidden;
+}
+
+.soul{
+    position:absolute;
+    width:18px;
+    height:18px;
+    background:red;
+    transform:rotate(45deg);
+}
+
+.bullet{
+    position:absolute;
+    width:14px;
+    height:14px;
+    background:white;
+    border-radius:50%;
+}
+
+.stats{
+    display:flex;
+    gap:20px;
+    font-size:.7rem;
+}
+
+.menu{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card{
+    border:3px solid white;
+    padding:15px;
+    margin:15px 0;
+}
+
+footer{
+    text-align:center;
+    color:#888;
+    padding:40px;
+    font-size:.6rem;
+}
+
+.hidden{
+    display:none;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.2);
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+
+<div class="heart-title">♥</div>
+
+<h1>DETERMINACIÓN</h1>
+
+<div class="subtitle">
+RPG Retro inspirado en la atmósfera de Undertale
+</div>
+
+</header>
+
+<nav>
+<button onclick="showSection('inicio')">INICIO</button>
+<button onclick="showSection('historia')">HISTORIA</button>
+<button onclick="showSection('personajes')">PERSONAJES</button>
+<button onclick="showSection('rutas')">RUTAS</button>
+<button onclick="showSection('combate')">COMBATE</button>
+</nav>
+
+<div id="inicio" class="section">
+
+<div class="dialog-box">
+<div id="dialog" class="dialog-text">
+* Bienvenido, humano. Mantente determinado.
+</div>
+</div>
+
+<div class="menu" style="margin-top:20px;">
+<button onclick="speak('* En este mundo cada decisión importa.')">ACT</button>
+<button onclick="speak('* Elegiste mostrar misericordia.')">MERCY</button>
+<button onclick="speak('* Usaste un objeto brillante.')">ITEM</button>
+<button onclick="speak('* Pero nadie vino.')">FIGHT</button>
+</div>
+
+<div class="box">
+<h2>¿Qué es Undertale?</h2>
+
+<p>
+Undertale es un famoso RPG independiente creado por Toby Fox y lanzado en 2015.
+Se hizo popular por permitir resolver encuentros sin eliminar enemigos,
+sus personajes memorables, diálogos únicos y una historia que reacciona a las
+decisiones del jugador.
+</p>
+</div>
+
+</div>
+
+<div id="historia" class="section hidden">
+
+<div class="box">
+<h2>Historia</h2>
+
+<p>
+Hace mucho tiempo humanos y monstruos convivían.
+Tras una gran guerra, los monstruos fueron sellados bajo tierra.
+Años después, un niño cae en ese mundo oculto y debe encontrar el camino de regreso.
+</p>
+
+<br>
+
+<p>
+Durante la aventura conocerás personajes amigables, desafíos,
+misterios y múltiples finales dependiendo de tus acciones.
+</p>
+</div>
+
+</div>
+
+<div id="personajes" class="section hidden">
+
+<div class="card">
+<h2>Personajes Importantes</h2>
+
+<ul>
+<li>Sans - Un esqueleto relajado con mucho sentido del humor.</li>
+<li>Papyrus - Ambicioso, energético y amante de los rompecabezas.</li>
+<li>Toriel - Protectora y amable.</li>
+<li>Undyne - Guerrera decidida.</li>
+<li>Alphys - Científica brillante.</li>
+<li>Asgore - Rey de los monstruos.</li>
+<li>Flowey - Una flor muy extraña.</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="rutas" class="section hidden">
+
+<div class="box">
+<h2>Rutas Principales</h2>
+
+<ul>
+<li>Pacifista: resolver conflictos sin violencia.</li>
+<li>Neutral: combinación de acciones y decisiones.</li>
+<li>Genocida: eliminar a todos los enemigos encontrados.</li>
+</ul>
+
+<br>
+
+<p>
+Una de las características más famosas del juego es cómo recuerda
+acciones realizadas anteriormente y modifica diálogos, eventos y finales.
+</p>
+
+</div>
+
+</div>
+
+<div id="combate" class="section hidden">
+
+<div class="battle-ui">
+
+<div class="stats">
+<div>HP: <span id="hp">20</span></div>
+<div>NIVEL: 1</div>
+<div>ALMA ROJA</div>
+</div>
+
+<div class="arena" id="arena">
+<div class="soul" id="soul"></div>
+</div>
+
+<p style="font-size:.65rem;text-align:center;">
+Usa las flechas del teclado para mover el corazón y esquivar proyectiles.
+</p>
+
+<button onclick="startBattle()">
+INICIAR ATAQUE
+</button>
+
+</div>
+
+</div>
+
+<footer>
+Página fan inspirada en RPG retro. No contiene recursos oficiales del juego.
+</footer>
+
+<script>
+
+const sections = document.querySelectorAll(".section");
+
+function showSection(id){
+
+sections.forEach(sec=>{
+sec.classList.add("hidden");
+});
+
+document.getElementById(id).classList.remove("hidden");
+}
+
+function speak(text){
+
+const target=document.getElementById("dialog");
+
+target.textContent="";
+
+let i=0;
+
+const interval=setInterval(()=>{
+
+target.textContent+=text[i];
+
+i++;
+
+if(i>=text.length){
+clearInterval(interval);
+}
+
+},30);
+}
+
+const soul=document.getElementById("soul");
+const arena=document.getElementById("arena");
+
+let x=240;
+let y=120;
+
+soul.style.left=x+"px";
+soul.style.top=y+"px";
+
+document.addEventListener("keydown",e=>{
+
+const speed=8;
+
+if(e.key==="ArrowLeft") x-=speed;
+if(e.key==="ArrowRight") x+=speed;
+if(e.key==="ArrowUp") y-=speed;
+if(e.key==="ArrowDown") y+=speed;
+
+x=Math.max(0,Math.min(arena.clientWidth-20,x));
+y=Math.max(0,Math.min(arena.clientHeight-20,y));
+
+soul.style.left=x+"px";
+soul.style.top=y+"px";
+});
+
+let hp=20;
+
+function damage(){
+
+hp--;
+
+document.getElementById("hp").textContent=hp;
+
+if(hp<=0){
+
+alert("GAME OVER\nTu determinación se agotó.");
+
+hp=20;
+
+document.getElementById("hp").textContent=hp;
+}
+}
+
+function startBattle(){
+
+const count=20;
+
+for(let i=0;i<count;i++){
+
+const bullet=document.createElement("div");
+
+bullet.className="bullet";
+
+bullet.style.left=Math.random()*
+(arena.clientWidth-20)+"px";
+
+bullet.style.top="-20px";
+
+arena.appendChild(bullet);
+
+let pos=-20;
+
+const fall=setInterval(()=>{
+
+pos+=4;
+
+bullet.style.top=pos+"px";
+
+const bx=bullet.offsetLeft;
+const by=bullet.offsetTop;
+
+const sx=soul.offsetLeft;
+const sy=soul.offsetTop;
+
+if(
+bx<sx+18 &&
+bx+14>sx &&
+by<sy+18 &&
+by+14>sy
+){
+damage();
+
+bullet.remove();
+
+clearInterval(fall);
+}
+
+if(pos>arena.clientHeight){
+
+bullet.remove();
+
+clearInterval(fall);
+}
+
+},20);
+}
+}
+
+speak("* Bienvenido, humano. Mantente determinado.");
+
+</script>
+
+</body>
+</html>
+   
+
+
